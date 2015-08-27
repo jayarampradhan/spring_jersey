@@ -1,0 +1,4 @@
+rootProject.name = 'spring_jersey'
+include ':app'
+
+project(':app').projectDir = "$rootDir/app" as File

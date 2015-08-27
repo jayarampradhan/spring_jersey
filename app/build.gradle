@@ -1,0 +1,51 @@
+group 'com.uimirror.poc.spring.jersey'
+version '1.0'
+
+apply plugin:'application'
+
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        if (details.requested.group == 'org.apache.tomcat.embed') {
+            details.useVersion '8.0.14'
+        }
+    }
+}
+
+dependencies {
+    testCompile group: 'org.glassfish.jersey.test-framework.providers', name: 'jersey-test-framework-provider-jetty', version: jerseyVersion
+    testCompile group: 'org.skyscreamer', name: 'jsonassert', version: '1.2.3'
+    //compile project(':uim-reach-api-core')
+    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: jerseyVersion
+    compile (group: 'org.glassfish.jersey.ext', name: 'jersey-spring3', version: jerseyVersion){
+        exclude module: 'spring-web'
+    }
+    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-processing', version: jerseyVersion
+    compile (group: 'javax', name: 'javaee-api', version: javaeeApiVersion)
+
+    compile (group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion){
+        exclude module: 'jackson-databind'
+        exclude module: 'spring-webmvc'
+        exclude module: 'spring-web'
+        exclude module: 'log4j-over-slf4j'
+        exclude module: 'jboss-logging'
+        exclude module: 'jul-to-slf4j'
+    }
+
+    //Swagger UI Depedancy
+    compile (group: 'io.swagger', name: 'swagger-jaxrs', version: swaggerVersion){
+        exclude module: 'jsr311-api'
+    }
+
+}
+
+mainClassName = "com.uimirror.poc.rest.StartApp"
+
+jar {
+    manifest {
+        attributes "Implementation-Title": "Rest Version POC"
+        attributes "Implementation-Version": project.version
+        attributes "Main-Class": mainClassName
+    }
+}
+
+defaultTasks 'clean', 'build'
