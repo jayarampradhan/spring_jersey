@@ -40,6 +40,8 @@ public class SomeResourceTest extends JerseyTest{
     protected Application configure() {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class, ServiceBeanInitalizer.class, SomeServiceTest.DaoMockBeans.class, SomeServiceTest.ExpensiveMockBeans.class);
         final ResourceConfig config = new JerssyApplicationInitializer();
+        //DO you know you can test only one resource ??
+        //Do you know you can inject mock at run time ??
         config.property("contextConfig", context);
         someDao = (SomeDao)context.getBean("someDao");
         return config;

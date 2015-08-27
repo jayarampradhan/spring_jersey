@@ -61,7 +61,8 @@ public class SomeServiceTest {
 
     @Test
     public void testSayHello () {
-
+        //Do you know you can rely on existing app conext and inject mock ??
+        //Do you know you can inject mock which is relevant to you only...to make run test much faster ??
         // specify mock behave when method called
         when(someDao.findMessage()).thenReturn(new Hello());
 
